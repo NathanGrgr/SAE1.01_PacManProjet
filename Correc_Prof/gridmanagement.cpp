@@ -36,7 +36,7 @@ void DisplayGrid (const CMat & Mat)
             case KEmpty:
                 cout << c;
                 break;
-            case 'T':
+            case 'W':
                 Color (KColor.find("KBlue")->second);
                 cout << c;
                 Color (KColor.find("KReset")->second);
@@ -63,18 +63,40 @@ void DisplayGrid (const CMat & Mat)
 void InitGrid (CMat & Mat, unsigned NbLine, unsigned NbColumn, CPosition & PosPlayer1, CPosition & PosPlayer2, CPosition & PosTP1, CPosition & PosTP2)
 {
     Mat.resize (NbLine);
+    size_t TypePart;
     const CVLine KLine (NbColumn, KEmpty);
     for (CVLine &ALine : Mat)
         ALine = KLine;
 
-    PosTP1.first=1;
-    PosTP1.second=1;
-    PosTP2.first=3;
-    PosTP2.second=9;
+    if (TypePart == 1)
+    {
+        PosTP1.first = 5;
+        PosTP1.second = 2;
+        Mat [PosTP1.first][PosTP1.second] = 'W';
+        PosTP2.first = 7;
+        PosTP2.second = 4;
+        Mat [PosTP2.first][PosTP2.second] = 'W';
+    }
+    else if (TypePart == 2)
+    {
+        PosTP1.first = 5;
+        PosTP1.second = 5;
+        Mat [PosTP1.first][PosTP1.second] = 'W';
+        PosTP2.first = 2;
+        PosTP2.second = 2;
+        Mat [PosTP2.first][PosTP2.second] = 'W';
+    }
+    else
+    {
+        PosTP1.first = 3;
+        PosTP1.second = 3;
+        Mat [PosTP1.first][PosTP1.second] = 'W';
+        PosTP2.first = 2;
+        PosTP2.second = 2;
+        Mat [PosTP2.first][PosTP2.second] = 'W';
+    }
     PosPlayer1.first = 0;
     PosPlayer1.second = NbColumn - 1;
-    Mat [PosTP1.first][PosTP1.second]='T';
-    Mat [PosTP2.first][PosTP2.second]='T';
     Mat [PosPlayer1.first][PosPlayer1.second] = 'X';
     PosPlayer2.first = NbLine - 1;
     PosPlayer2.second =0;

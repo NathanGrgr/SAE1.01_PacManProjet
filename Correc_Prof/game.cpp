@@ -46,7 +46,6 @@ void MoveToken (CMat & Mat, const char & Move, CPosition & Pos)
     Mat [Pos.first][Pos.second] = car;
 } //MoveToken ()
 
-
 void TP (CMat & Mat, CPosition & Pos, CPosition & PosTP1, CPosition & PosTP2, bool & Player1Turn){
     if (Pos.first == PosTP1.first && Pos.second==PosTP1.second){
         Mat[Pos.first][Pos.second]=' ';
@@ -72,9 +71,7 @@ void TP (CMat & Mat, CPosition & Pos, CPosition & PosTP1, CPosition & PosTP2, bo
             Mat[Pos.first][Pos.second]='O';
         }
     }
-
 }
-
 
 int ppal (void)
 {
@@ -83,15 +80,25 @@ int ppal (void)
     unsigned PartyNum (1);
     const unsigned KMaxPartyNum (KSize * KSize);
     CMat Mat;
+    size_t TypePart;
 
     bool Player1Turn (true);
     bool Victory (false);
 
     CPosition PosPlayer1, PosPlayer2;
-
-    CPosition PosTP1;
-    CPosition PosTP2;
-    InitGrid(Mat, 10, 10, PosPlayer1, PosPlayer2, PosTP1, PosTP2);
+    CPosition PosTP1, PosTP2;
+    if (TypePart == 1)
+    {
+        InitGrid(Mat, 10, 10, PosPlayer1, PosPlayer2, PosTP1, PosTP2);
+    }
+    else if (TypePart == 2)
+    {
+        InitGrid(Mat, 7, 7, PosPlayer1, PosPlayer2, PosTP1, PosTP2);
+    }
+    else
+    {
+        InitGrid(Mat, 4, 4, PosPlayer1, PosPlayer2, PosTP1, PosTP2);
+    }
 
     DisplayGrid (Mat);
 
@@ -99,14 +106,14 @@ int ppal (void)
     {
 
         cout << "tour numero : " << PartyNum << ", Joueur"
-             << (Player1Turn ? 'X' : 'O') << ", entrez un déplacement : ";
+             << (Player1Turn ? '1' : '2') << ", entrez un déplacement : ";
 
         char Move;
         cin >> Move;
 
         Move = toupper (Move);
         MoveToken (Mat, Move, (Player1Turn ? PosPlayer1: PosPlayer2));
-        TP(Mat, (Player1Turn ? PosPlayer1: PosPlayer2), PosTP1, PosTP2, Player1Turn);
+        TP(Mat, (Player1Turn ? PosPlayer1 : PosPlayer2), PosTP1, PosTP2, Player1Turn);
         ClearScreen();
         DisplayGrid (Mat);
 
@@ -118,7 +125,6 @@ int ppal (void)
 
         //Player changing
         Player1Turn = !Player1Turn;
-
     }//while (no victory)
 
     if (!Victory)
