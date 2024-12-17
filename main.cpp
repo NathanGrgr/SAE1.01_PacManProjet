@@ -18,6 +18,17 @@ int main()
 {
     try
     {
+        size_t TypePart;
+        cout << "veuillez choisir votre type de partie :" << endl ;
+        cout << "Pour effectuer une Partie longue tapez 1" << endl ;
+        cout << "Pour effectuer une Partie classique tapez 2" << endl ;
+        cout << "Pour effectuer une Partie rapide tapez 3" << endl ;
+        cin >> TypePart ;
+        if (TypePart > 3)
+        {
+            cout << "Il n'existe pas de partie associé a ce chiffre" << endl;
+        }
+
         return ppal ();
     }
     catch (...)
