@@ -1,0 +1,2 @@
+Convert size_t into char:
+https://stackoverflow.com/questions/25850244/casting-from-size-t-to-char-and-around
