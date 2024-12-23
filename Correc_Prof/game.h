@@ -12,8 +12,6 @@
  */
 
 #include "type.h"
-
-
 /*!
  * \brief Move the current token according to the character in the 2nd parameter
  * \param[in, out] Mat the matrix before and after the move
@@ -25,7 +23,7 @@ void MoveToken (CMat & Mat, const char & Move, CPosition & Pos);
 
 
 
-void TP (CMat & Mat, CPosition & Pos, CPosition & PosTP1, CPosition & PosTP2, bool & Player1Turn);
+void TP_verif (CMat & Mat, CPosition & Pos, std::vector<TP> & PosTP, bool & Player1Turn);
 
 /**
  * @brief new main

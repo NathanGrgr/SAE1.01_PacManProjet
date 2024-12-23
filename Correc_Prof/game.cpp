@@ -1,13 +1,15 @@
 #include <iostream>
+#include <vector>
 
 #include "game.h"
 #include "params.h"
 #include "gridmanagement.h"
-
+#include "type.h"
 #include <map>
+
 using namespace std;
 
-
+//Permet de faire bouger le joueur sur la map en fonction de l'entrée saisie
 void MoveToken (CMat & Mat, const char & Move, CPosition & Pos)
 {
     char car = Mat [Pos.first][Pos.second];
@@ -46,86 +48,97 @@ void MoveToken (CMat & Mat, const char & Move, CPosition & Pos)
     Mat [Pos.first][Pos.second] = car;
 } //MoveToken ()
 
-void TP (CMat & Mat, CPosition & Pos, CPosition & PosTP1, CPosition & PosTP2, bool & Player1Turn){
-    if (Pos.first == PosTP1.first && Pos.second==PosTP1.second){
-        Mat[Pos.first][Pos.second]=' ';
-        Pos.first=PosTP2.first;
-        Pos.second=PosTP2.second;
-        if (Player1Turn){
-            Mat[Pos.first][Pos.second]='X';
 
+//Vérifie si le joueur est sur un des points du/des TP
+void TP_Verif (CMat & Mat, CPosition & Pos, vector<TP> & PosTP, bool & Player1Turn){
+    for (size_t i(0); i < PosTP.size(); ++i){
+        if (Pos.first == PosTP[i].PosTP1.first && Pos.second==PosTP[i].PosTP1.second){
+            Mat[Pos.first][Pos.second]=' ';
+            Pos.first=PosTP[i].PosTP2.first;
+            Pos.second=PosTP[i].PosTP2.second;
+            PosTP.erase(PosTP.begin()+i);
+            if (Player1Turn){
+                Mat[Pos.first][Pos.second]='X';
+            }
+            else if (!Player1Turn){
+                Mat[Pos.first][Pos.second]='O';
+            }
         }
-        else if (!Player1Turn){
-            Mat[Pos.first][Pos.second]='O';
-        }
-    }
-    //fonctionne
-    else if (Pos.first == PosTP2.first && Pos.second==PosTP2.second){
-        Mat[Pos.first][Pos.second]=' ';
-        Pos.first=PosTP1.first;
-        Pos.second=PosTP1.second;
-        if (Player1Turn){
-            Mat[Pos.first][Pos.second]='X';
-        }
-        else if (!Player1Turn){
-            Mat[Pos.first][Pos.second]='O';
+        else if (Pos.first == PosTP[i].PosTP2.first && Pos.second==PosTP[i].PosTP2.second){
+            Mat[Pos.first][Pos.second]=' ';
+            Pos.first=PosTP[i].PosTP1.first;
+            Pos.second=PosTP[i].PosTP1.second;
+            PosTP.erase(PosTP.begin()+i);
+            if (Player1Turn){
+                Mat[Pos.first][Pos.second]='X';
+            }
+            else if (!Player1Turn){
+                Mat[Pos.first][Pos.second]='O';
+            }
         }
     }
 }
 
-int ppal (void)
-{
+void Mur_Verif (CMat & Mat, CPosition & Pos, vector<CPosition> & VectorMur){
+}
 
-    const unsigned KSize (10);
+int ppal (void){
+
+    unsigned KSize (10);
     unsigned PartyNum (1);
     const unsigned KMaxPartyNum (KSize * KSize);
     CMat Mat;
-    size_t TypePart;
+    unsigned TypePart;
 
     bool Player1Turn (true);
     bool Victory (false);
-
     CPosition PosPlayer1, PosPlayer2;
-    CPosition PosTP1, PosTP2;
+    vector<CPosition> VectorMur;
+    vector<TP> VectorTP;
+    vector<char> NomTP;
+
+    cout << "veuillez choisir votre type de partie :" << endl ;
+    cout << "Pour effectuer une Partie longue tapez 1" << endl ;
+    cout << "Pour effectuer une Partie classique tapez 2" << endl ;
+    cout << "Pour effectuer une Partie rapide tapez 3" << endl ;
+    cin >> TypePart;
     if (TypePart == 1)
     {
-        InitGrid(Mat, 10, 10, PosPlayer1, PosPlayer2, PosTP1, PosTP2);
+        InitGrid(Mat, 10, 10, PosPlayer1, PosPlayer2, VectorTP, 3, NomTP,VectorMur, 1);
     }
     else if (TypePart == 2)
     {
-        InitGrid(Mat, 7, 7, PosPlayer1, PosPlayer2, PosTP1, PosTP2);
+        InitGrid(Mat, 7, 7, PosPlayer1, PosPlayer2, VectorTP, 1, NomTP, VectorMur, 1);
     }
-    else
+    else if (TypePart==3)
     {
-        InitGrid(Mat, 4, 4, PosPlayer1, PosPlayer2, PosTP1, PosTP2);
+        InitGrid(Mat, 4, 4, PosPlayer1, PosPlayer2, VectorTP, 1, NomTP, VectorMur, 1);
     }
 
     DisplayGrid (Mat);
-
     while (PartyNum <= KMaxPartyNum && ! Victory)
     {
-
+        affichStructVectPair(VectorTP);
         cout << "tour numero : " << PartyNum << ", Joueur"
-             << (Player1Turn ? '1' : '2') << ", entrez un déplacement : ";
+             << (Player1Turn ? 'X' : 'O') << ", entrez un déplacement : ";
 
         char Move;
         cin >> Move;
 
         Move = toupper (Move);
         MoveToken (Mat, Move, (Player1Turn ? PosPlayer1: PosPlayer2));
-        TP(Mat, (Player1Turn ? PosPlayer1 : PosPlayer2), PosTP1, PosTP2, Player1Turn);
+        TP_Verif(Mat, (Player1Turn ? PosPlayer1 : PosPlayer2), VectorTP, Player1Turn);
         ClearScreen();
         DisplayGrid (Mat);
 
-        //Victiry test
+        //Test de condition de victoire
         if (PosPlayer1 == PosPlayer2) Victory = true;
 
-        //Increase party's number
         ++PartyNum;
 
-        //Player changing
+        //Change tour du joueur
         Player1Turn = !Player1Turn;
-    }//while (no victory)
+    }
 
     if (!Victory)
     {

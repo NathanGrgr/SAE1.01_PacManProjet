@@ -11,7 +11,7 @@
  */
 
 #include <string>
-
+#include <vector>
 #include "type.h" //nos types
 
 /**
@@ -34,7 +34,20 @@ void Color (const std::string & Col);
  * @param[in] Params : : List of usefull parameters
  * @fn void DisplayGrid (const CMat & Mat, const CMyParam & Params, bool ShowLineNumber = true, bool ShowColor = true);
  */
-void DisplayGrid (const CMat & Mat);
+void DisplayGrid (const CMat & Mat); //std::vector<char> NomTP);
+
+void affichVectChar(std::vector<char> v);
+
+void affichPair(CPosition & Pair);
+
+void affichVectPair (std::vector<CPosition> & v);
+
+
+void affichStructVectPair (std::vector<TP> & v);
+
+void Genere_Mur(CMat & Mat, unsigned NbLine, unsigned NbColumn, std::vector<CPosition> & PosMur, unsigned NbMur);
+
+void Genere_TP(CMat & Mat, unsigned NbLine, unsigned NbColumn, std::vector<TP> & PosTP, unsigned NbTP);
 
 
 /*!
@@ -45,6 +58,8 @@ void DisplayGrid (const CMat & Mat);
  * \param[out] PosPlayer2 position of the second player's token in Mat
  * @fn void InitGrid (CMat & Mat, const CMyParam & Params, CPosition & PosPlayer1, CPosition & PosPlayer2);
  */
-void InitGrid (CMat & Mat, unsigned NbLine, unsigned NbColumn, CPosition & PosPlayer1, CPosition & PosPlayer2, CPosition & PosTP1, CPosition & PosTP2);
 
+
+void InitGrid (CMat & Mat, unsigned NbLine, unsigned NbColumn, CPosition & PosPlayer1, CPosition & PosPlayer2, std::vector<TP> & VectorTP, unsigned NbTP,
+              std::vector<char> & NomTP, std::vector<CPosition> & VectorMur, unsigned NbMur);
 #endif // GRIDMANAGEMENT_H

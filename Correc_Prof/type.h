@@ -31,6 +31,17 @@ typedef std::pair <unsigned, unsigned> CPosition;
 
 
 
+//Stocke tous les TP de la map
+typedef struct{
+    CPosition PosTP1;
+    CPosition PosTP2;
+}TP;
+
+
+
+
+typedef std::vector<TP> VectorTP;
+
 /**
  * @brief Struct containing all the authorized keys in the struct CMyParam
  */
