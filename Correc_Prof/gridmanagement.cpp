@@ -42,7 +42,7 @@ void affichVectPair (vector<CPosition> & v){
 }
 
 //Affiche tous les éléments de 2 à 2 d'un struct composé de 2 vecteurs de pairs
-void affichStructVectPair (vector<TP> & v){
+void affichVectStructPair (vector<TP> & v){
     for (size_t i(0); i < v.size(); ++i){
         affichPair(v[i].PosTP1);
         affichPair(v[i].PosTP2);
@@ -50,7 +50,8 @@ void affichStructVectPair (vector<TP> & v){
     cout << endl;
 }
 
-void DisplayGrid (const CMat & Mat)//vector<char> NomTP)
+
+void DisplayGrid (const CMat & Mat, vector<char> & NomTP)
 {
     const unsigned KNbLine = Mat.size ();
     const unsigned KNbCol  = Mat[0].size ();
@@ -61,56 +62,33 @@ void DisplayGrid (const CMat & Mat)//vector<char> NomTP)
         cout << '|';
         for (char c : Mat[i])
         {
-            // for (size_t j(0); j<NomTP.size(); ++j){
-            //     cout << NomTP[j] << endl;
-            //     if (c==NomTP[j]){
-            //         Color (KColor.find("KRed")->second);
-            //         cout << c;
-            //         Color (KColor.find("KReset")->second);
-            //     }
-            // }
-            switch (c)
-            {
-            case KEmpty:
+            if (c==KEmpty){
                 cout << c;
-                break;
-            case 'A':
-                Color (KColor.find("KGreen")->second);
-                cout << c;
-                Color (KColor.find("KReset")->second);
-                break;
-            case 'B':
-                Color (KColor.find("KGreen")->second);
-                cout << c;
-                Color (KColor.find("KReset")->second);
-                break;
-            case 'C':
-                Color (KColor.find("KGreen")->second);
-                cout << c;
-                Color (KColor.find("KReset")->second);
-                break;
-            case 'D':
-                Color (KColor.find("KGreen")->second);
-                cout << c;
-                Color (KColor.find("KReset")->second);
-                break;
-            case 'X':
+            }
+            else if (c=='X'){
                 Color (KColor.find("KBlue")->second);
                 cout << c;
                 Color (KColor.find("KReset")->second);
-                break;
-            case 'O':
+            }
+            else if (c=='O'){
                 Color (KColor.find("KBlue")->second);
                 cout << c;
                 Color (KColor.find("KReset")->second);
-                break;
-            case 'M':
+            }
+            else if (c=='M'){
                 Color (KColor.find("KRed")->second);
                 cout << c;
                 Color (KColor.find("KReset")->second);
-                break;
             }
-
+            else{
+                for (size_t j(0); j<NomTP.size(); ++j){
+                    if (c==NomTP[j]){
+                        Color (KColor.find("KGreen")->second);
+                        cout << c;
+                        Color (KColor.find("KReset")->second);
+                    }
+                }
+            }
         }
         cout << '|' << endl;
     }
@@ -120,40 +98,73 @@ void DisplayGrid (const CMat & Mat)//vector<char> NomTP)
 }
 
 //Génère obstacles sur la map
-void Genere_Mur(CMat & Mat, unsigned NbLine, unsigned NbColumn, vector<CPosition> & VectorMur, unsigned NbMur){
-    for (size_t i(0); i <NbMur; ++i){
+void Genere_Mur(CMat & Mat, unsigned NbLine, unsigned NbColumn, vector<CPosition> & VectorMur, unsigned NbMur, vector<CPosition> & VectorMap){
+    bool trouv(false);
+    unsigned i(0);
+    while (i<NbMur){
+        trouv=false;
         CPosition PosMur;
         PosMur.first=rand()%NbLine;
         PosMur.second=rand()%NbColumn;
-        Mat [PosMur.first][PosMur.second] = 'M';
-        VectorMur.push_back(PosMur);
+
+        for (size_t j(0); j<VectorMap.size(); ++j){
+            if (PosMur==VectorMap[i]){
+                trouv=true;
+            }
+        }
+        if (trouv==false){
+            Mat [PosMur.first][PosMur.second] = 'M';
+            VectorMap.push_back(PosMur);
+            VectorMur.push_back(PosMur);
+            ++i;
+        }
     }
+
 }
 
 
 //Génère les TP en fonction du NbTP et le stocke dans le struc TP
-void Genere_TP(CMat & Mat, unsigned NbLine, unsigned NbColumn, vector<TP> & VectorTP, unsigned NbTP, vector<char> & NomTP){
+void Genere_TP(CMat & Mat, unsigned NbLine, unsigned NbColumn, vector<TP> & VectorTP, unsigned NbTP, vector<char> & NomTP, vector<CPosition> & VectorMap){
     char val = 'A';
-    for (size_t i(1); i <NbTP+1; ++i){
+    unsigned i(0);
+    bool trouv(false);
+    while (i<NbTP){
+        trouv=false;
         CPosition PosTP1, PosTP2;
         PosTP1.first = rand()%NbLine;
         PosTP1.second = rand()%NbColumn;
         PosTP2.first = rand()%NbLine;
         PosTP2.second = rand()%NbColumn;
 
-        Mat [PosTP1.first][PosTP1.second] = val;
-        Mat [PosTP2.first][PosTP2.second] = val;
-        VectorTP.push_back(TP{PosTP1,PosTP2});
-        NomTP.push_back(val);
-        ++val;
-    }
+        if (PosTP1==PosTP2){
+            continue;
+        }
+        for (size_t j(0); j<VectorMap.size(); ++j){
+            if (PosTP1==VectorMap[j] || PosTP2==VectorMap[j]){
+                trouv=true;
+                break;
+            }
+        }
+        if (!trouv){
+            Mat [PosTP1.first][PosTP1.second] = val;
+            Mat [PosTP2.first][PosTP2.second] = val;
+            VectorTP.push_back(TP{PosTP1,PosTP2});
 
+            VectorMap.push_back(PosTP1);
+            VectorMap.push_back(PosTP2);
+            NomTP.push_back(val);
+            ++val;
+            ++i;
+        }
+    }
+    cout << "coucour" << endl;
+    affichVectPair(VectorMap);
 }
 
 
 
 void InitGrid (CMat & Mat, unsigned NbLine, unsigned NbColumn, CPosition & PosPlayer1, CPosition & PosPlayer2, vector<TP> & VectorTP, unsigned NbTP,
-                vector<char> & NomTP, vector<CPosition> & VectorMur, unsigned NbMur){
+                vector<char> & NomTP, vector<CPosition> & VectorMur, unsigned NbMur, vector<CPosition> & VectorMap){
 
     Mat.resize (NbLine);
     const CVLine KLine (NbColumn, KEmpty);
@@ -166,6 +177,7 @@ void InitGrid (CMat & Mat, unsigned NbLine, unsigned NbColumn, CPosition & PosPl
     PosPlayer2.first = NbColumn-1;
     PosPlayer2.second =NbLine-1;
     Mat [PosPlayer2.first][PosPlayer2.second]   = 'O';
-    Genere_TP(Mat, NbLine, NbColumn, VectorTP, NbTP, NomTP);
-    Genere_Mur(Mat,NbLine, NbColumn, VectorMur, NbMur);
+    Genere_TP(Mat, NbLine, NbColumn, VectorTP, NbTP, NomTP,VectorMap);
+    Genere_Mur(Mat,NbLine, NbColumn, VectorMur, NbMur, VectorMap);
+
 }

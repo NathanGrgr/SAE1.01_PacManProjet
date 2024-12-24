@@ -34,7 +34,8 @@ void Color (const std::string & Col);
  * @param[in] Params : : List of usefull parameters
  * @fn void DisplayGrid (const CMat & Mat, const CMyParam & Params, bool ShowLineNumber = true, bool ShowColor = true);
  */
-void DisplayGrid (const CMat & Mat); //std::vector<char> NomTP);
+
+void DisplayGrid (const CMat & Mat, std::vector<char> & NomTP);
 
 void affichVectChar(std::vector<char> v);
 
@@ -43,11 +44,11 @@ void affichPair(CPosition & Pair);
 void affichVectPair (std::vector<CPosition> & v);
 
 
-void affichStructVectPair (std::vector<TP> & v);
+void affichVectStructPair (std::vector<TP> & v);
 
-void Genere_Mur(CMat & Mat, unsigned NbLine, unsigned NbColumn, std::vector<CPosition> & PosMur, unsigned NbMur);
+void Genere_Mur(CMat & Mat, unsigned NbLine, unsigned NbColumn, std::vector<CPosition> & PosMur, unsigned NbMur, std::vector<CPosition> & VectorMap);
 
-void Genere_TP(CMat & Mat, unsigned NbLine, unsigned NbColumn, std::vector<TP> & PosTP, unsigned NbTP);
+void Genere_TP(CMat & Mat, unsigned NbLine, unsigned NbColumn, std::vector<TP> & PosTP, unsigned NbTP, std::vector<CPosition> & VectorMap);
 
 
 /*!
@@ -61,5 +62,5 @@ void Genere_TP(CMat & Mat, unsigned NbLine, unsigned NbColumn, std::vector<TP> &
 
 
 void InitGrid (CMat & Mat, unsigned NbLine, unsigned NbColumn, CPosition & PosPlayer1, CPosition & PosPlayer2, std::vector<TP> & VectorTP, unsigned NbTP,
-              std::vector<char> & NomTP, std::vector<CPosition> & VectorMur, unsigned NbMur);
+              std::vector<char> & NomTP, std::vector<CPosition> & VectorMur, unsigned NbMur, std::vector<CPosition> & VectorMap);
 #endif // GRIDMANAGEMENT_H

@@ -92,10 +92,16 @@ int ppal (void){
 
     bool Player1Turn (true);
     bool Victory (false);
+    //Stocke les positions courantes des joueurs
     CPosition PosPlayer1, PosPlayer2;
+    //Stocke les coordonnées des murs
     vector<CPosition> VectorMur;
+    //Srocke les coordonnées des TP
     vector<TP> VectorTP;
+    //Stocke tous les noms des couples de TP
     vector<char> NomTP;
+    //Stocke tous les obstacles possédant des coordonnées sur la matrice
+    vector<CPosition>VectorMap;
 
     cout << "veuillez choisir votre type de partie :" << endl ;
     cout << "Pour effectuer une Partie longue tapez 1" << endl ;
@@ -104,21 +110,22 @@ int ppal (void){
     cin >> TypePart;
     if (TypePart == 1)
     {
-        InitGrid(Mat, 10, 10, PosPlayer1, PosPlayer2, VectorTP, 3, NomTP,VectorMur, 1);
+        InitGrid(Mat, 10, 10, PosPlayer1, PosPlayer2, VectorTP, 7, NomTP,VectorMur, 5, VectorMap);
     }
     else if (TypePart == 2)
     {
-        InitGrid(Mat, 7, 7, PosPlayer1, PosPlayer2, VectorTP, 1, NomTP, VectorMur, 1);
+        InitGrid(Mat, 7, 7, PosPlayer1, PosPlayer2, VectorTP, 1, NomTP, VectorMur, 1, VectorMap);
     }
     else if (TypePart==3)
     {
-        InitGrid(Mat, 4, 4, PosPlayer1, PosPlayer2, VectorTP, 1, NomTP, VectorMur, 1);
+        InitGrid(Mat, 4, 4, PosPlayer1, PosPlayer2, VectorTP, 1, NomTP, VectorMur, 1, VectorMap);
     }
 
-    DisplayGrid (Mat);
+    DisplayGrid (Mat, NomTP);
     while (PartyNum <= KMaxPartyNum && ! Victory)
     {
-        affichStructVectPair(VectorTP);
+        affichVectStructPair(VectorTP);
+        affichVectPair(VectorMap);
         cout << "tour numero : " << PartyNum << ", Joueur"
              << (Player1Turn ? 'X' : 'O') << ", entrez un déplacement : ";
 
@@ -129,7 +136,7 @@ int ppal (void){
         MoveToken (Mat, Move, (Player1Turn ? PosPlayer1: PosPlayer2));
         TP_Verif(Mat, (Player1Turn ? PosPlayer1 : PosPlayer2), VectorTP, Player1Turn);
         ClearScreen();
-        DisplayGrid (Mat);
+        DisplayGrid (Mat, NomTP);
 
         //Test de condition de victoire
         if (PosPlayer1 == PosPlayer2) Victory = true;
