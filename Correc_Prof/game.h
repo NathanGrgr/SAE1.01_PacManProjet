@@ -19,9 +19,9 @@
  * \param[in, out] Pos the player's position before and after the move
  */
 
-void MoveToken (CMat & Mat, const char & Move, CPosition & Pos);
+void MoveToken (CMat & Mat, const char & Move, CPosition & Pos, std::vector<bool> VectorBloque);
 
-
+void Mur_Verif (CPosition & Pos, std::vector<CPosition> VectorMur, std::vector<bool> & VectorBloque);
 
 void TP_verif (CMat & Mat, CPosition & Pos, std::vector<TP> & PosTP, bool & Player1Turn);
 

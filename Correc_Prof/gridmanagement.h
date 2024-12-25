@@ -43,10 +43,11 @@ void affichPair(CPosition & Pair);
 
 void affichVectPair (std::vector<CPosition> & v);
 
+void affichVectBool(std::vector<bool> v);
 
 void affichVectStructPair (std::vector<TP> & v);
 
-void Genere_Mur(CMat & Mat, unsigned NbLine, unsigned NbColumn, std::vector<CPosition> & PosMur, unsigned NbMur, std::vector<CPosition> & VectorMap);
+void Genere_Mur(CMat & Mat, unsigned NbLine, unsigned NbColumn, std::vector<CPosition> & PosMur,  std::vector<CPosition> & VectorMap);
 
 void Genere_TP(CMat & Mat, unsigned NbLine, unsigned NbColumn, std::vector<TP> & PosTP, unsigned NbTP, std::vector<CPosition> & VectorMap);
 
@@ -62,5 +63,5 @@ void Genere_TP(CMat & Mat, unsigned NbLine, unsigned NbColumn, std::vector<TP> &
 
 
 void InitGrid (CMat & Mat, unsigned NbLine, unsigned NbColumn, CPosition & PosPlayer1, CPosition & PosPlayer2, std::vector<TP> & VectorTP, unsigned NbTP,
-              std::vector<char> & NomTP, std::vector<CPosition> & VectorMur, unsigned NbMur, std::vector<CPosition> & VectorMap);
+              std::vector<char> & NomTP, std::vector<CPosition> & VectorMur, std::vector<CPosition> & VectorMap);
 #endif // GRIDMANAGEMENT_H
