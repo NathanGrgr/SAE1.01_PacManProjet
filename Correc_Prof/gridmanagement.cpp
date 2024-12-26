@@ -58,10 +58,22 @@ void affichVectBool(vector<bool> v){
 }
 
 
+//fonction implémentant modulo comme sur python
+int mod(int a, int b)
+{
+    if(b < 0)
+        return -mod(-a, -b);
+    int ret = a % b;
+    if(ret < 0)
+        ret+=b;
+    return ret;
+}
+
+
 void DisplayGrid (const CMat & Mat, vector<char> & NomTP)
 {
     const unsigned KNbLine = Mat.size ();
-    const unsigned KNbCol  = Mat[0].size ();
+    //const unsigned KNbCol  = Mat[0].size ();
     //cout << string (KNbCol + 2 , '-') << endl;
     cout << endl;
     for (unsigned i (0); i < KNbLine; ++i)
@@ -83,6 +95,11 @@ void DisplayGrid (const CMat & Mat, vector<char> & NomTP)
             }
             else if (c=='M'){
                 Color (KColor.find("KBlue")->second);
+                cout << c << ' ';
+                Color (KColor.find("KReset")->second);
+            }
+            else if (c=='*'){
+                Color (KColor.find("KRed")->second);
                 cout << c << ' ';
                 Color (KColor.find("KReset")->second);
             }
@@ -134,7 +151,6 @@ void DisplayGrid (const CMat & Mat, vector<char> & NomTP)
 
 void Genere_Mur(CMat & Mat, unsigned NbLine, unsigned NbColumn, vector<CPosition> & VectorMur, vector<CPosition> & VectorMap){
     CPosition PosMur;
-
     //Génère bord murs
     //Bord Haut
     for (unsigned i(0); i<NbColumn; ++i){
@@ -367,6 +383,33 @@ void Genere_Mur(CMat & Mat, unsigned NbLine, unsigned NbColumn, vector<CPosition
 }
 
 
+void Genere_Piege(CMat & Mat, unsigned NbLine, unsigned NbColumn, vector<CPosition> & VectorPiege, unsigned NbPiege, vector<CPosition> & VectorMap){
+
+    unsigned i(0);
+    bool trouv(false);
+    while (i<NbPiege){
+        trouv=false;
+        CPosition PosPiege;
+        PosPiege.first= rand()%NbLine;
+        PosPiege.second = rand()%NbColumn;
+
+        //Détecte si les pièges générés sont sur des cases occupés
+        for (size_t j(0); j<VectorMap.size(); ++j){
+            if (PosPiege==VectorMap[j]){
+                trouv=true;
+                break;
+            }
+        }
+        if (!trouv){
+            Mat[PosPiege.first][PosPiege.second]='*';
+            VectorPiege.push_back(PosPiege);
+            VectorMap.push_back(PosPiege);
+            ++i;
+        }
+    }
+}
+
+
 //Génère les TP en fonction du NbTP et le stocke dans le struc TP
 void Genere_TP(CMat & Mat, unsigned NbLine, unsigned NbColumn, vector<TP> & VectorTP, unsigned NbTP, vector<char> & NomTP, vector<CPosition> & VectorMap){
     char val = 'A';
@@ -383,12 +426,14 @@ void Genere_TP(CMat & Mat, unsigned NbLine, unsigned NbColumn, vector<TP> & Vect
         if (PosTP1==PosTP2){
             continue;
         }
+        //Détecte si les points de TP sont sur des cases occupés
         for (size_t j(0); j<VectorMap.size(); ++j){
             if (PosTP1==VectorMap[j] || PosTP2==VectorMap[j]){
                 trouv=true;
                 break;
             }
         }
+        //Case Libre
         if (!trouv){
             Mat [PosTP1.first][PosTP1.second] = val;
             Mat [PosTP2.first][PosTP2.second] = val;
@@ -407,7 +452,7 @@ void Genere_TP(CMat & Mat, unsigned NbLine, unsigned NbColumn, vector<TP> & Vect
 
 
 void InitGrid (CMat & Mat, unsigned NbLine, unsigned NbColumn, CPosition & PosPlayer1, CPosition & PosPlayer2, vector<TP> & VectorTP, unsigned NbTP,
-                vector<char> & NomTP, vector<CPosition> & VectorMur, vector<CPosition> & VectorMap){
+                vector<char> & NomTP, vector<CPosition> & VectorMur, vector<CPosition> & VectorPiege, unsigned NbPiege, vector<CPosition> & VectorMap){
 
     Mat.resize (NbLine);
     const CVLine KLine (NbColumn, KEmpty);
@@ -421,5 +466,6 @@ void InitGrid (CMat & Mat, unsigned NbLine, unsigned NbColumn, CPosition & PosPl
     Mat [PosPlayer2.first][PosPlayer2.second]   = 'O';
     Genere_Mur(Mat,NbLine, NbColumn, VectorMur, VectorMap);
     Genere_TP(Mat, NbLine, NbColumn, VectorTP, NbTP, NomTP,VectorMap);
+    Genere_Piege(Mat,NbLine,NbColumn,VectorPiege, NbPiege,VectorMap);
 
 }

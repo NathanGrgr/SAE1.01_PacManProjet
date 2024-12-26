@@ -27,7 +27,7 @@ typedef std::vector <CVLine> CMat;
 /**
  * @brief CPosition : a pair gathering the coordinates in the grid
  */
-typedef std::pair <unsigned, unsigned> CPosition;
+typedef std::pair <int, int> CPosition;
 
 
 

@@ -7,6 +7,12 @@
 #include "type.h"
 #include <map>
 
+
+/*
+ * Corriger bug lors de TP (tour en + pour le joueur qui prend le tp
+ */
+
+
 using namespace std;
 //z, q, x, d, a, e, w, c
 //Permet de faire bouger le joueur sur la map en fonction de l'entrée saisie
@@ -26,7 +32,10 @@ void MoveToken (CMat & Mat, const char & Move, CPosition & Pos, vector<bool> Vec
             cout << "Déplacement non possible" << endl;
         break;
     case 'Q':
-        if (!VectorBloque[1])
+        if(Pos.second<=0)
+            Pos.second=mod((Pos.second-1),20);
+
+        else if (!VectorBloque[1])
             --Pos.second;
         else
             cout << "Déplacement non possible" << endl;
@@ -38,7 +47,9 @@ void MoveToken (CMat & Mat, const char & Move, CPosition & Pos, vector<bool> Vec
             cout << "Déplacement non possible" << endl;
         break;
     case 'D':
-        if (!VectorBloque[3])
+        if(Pos.second>=int(Mat.size()))
+            Pos.second=mod((Pos.second+1),20);
+        else if (!VectorBloque[3])
             ++Pos.second;
         else
             cout << "Déplacement non possible" << endl;
@@ -74,7 +85,7 @@ void MoveToken (CMat & Mat, const char & Move, CPosition & Pos, vector<bool> Vec
         }
         else
             cout << "Déplacement non possible" << endl;
-    }
+    }affichPair(Pos);
     Mat [Pos.first][Pos.second] = car;
     affichPair(Pos);
 } //MoveToken ()
@@ -109,6 +120,20 @@ void TP_Verif (CMat & Mat, CPosition & Pos, vector<TP> & PosTP, bool & Player1Tu
         }
     }
 }
+
+
+
+void Piege_Verif(CPosition & Pos,vector<CPosition> & VectorPiege, bool & Piege_Actif){
+    Piege_Actif=false;
+    cout << "coucou" << endl;
+    cout << VectorPiege.size() << endl;
+    cout << "test" << endl;
+    for (size_t i(0); i<VectorPiege.size(); ++i){
+        if (Pos==VectorPiege[i])
+            Piege_Actif=true;
+    }
+}
+
 
 // first --> y
 // second --> x
@@ -148,6 +173,9 @@ void Mur_Verif (CPosition & Pos, vector<CPosition> VectorMur,vector<bool> & Vect
 
 }
 
+
+
+
 int ppal (void){
     bool Victory (false);
     unsigned KSize (10);
@@ -169,6 +197,8 @@ int ppal (void){
     //Stocke tous les obstacles possédant des coordonnées sur la matrice
     vector<CPosition>VectorMap;
     vector<bool> VectorBloque;
+    vector<CPosition> VectorPiege;
+    bool Piege_Actif;
 
     cout << "Bienvenue sur PacMan :" << endl ;
     cout << "Pour aller au niveau 1 tapez 1" << endl ;
@@ -177,15 +207,15 @@ int ppal (void){
     cin >> TypePart;
     if (TypePart == 1)
     {
-        InitGrid(Mat, 10, 20, PosPlayer1, PosPlayer2, VectorTP, 7, NomTP,VectorMur, VectorMap);
+        InitGrid(Mat, 10, 20, PosPlayer1, PosPlayer2, VectorTP, 7, NomTP,VectorMur, VectorPiege, 3, VectorMap);
     }
     else if (TypePart == 2)
     {
-        InitGrid(Mat, 30, 10, PosPlayer1, PosPlayer2, VectorTP, 1, NomTP, VectorMur, VectorMap);
+        InitGrid(Mat, 30, 10, PosPlayer1, PosPlayer2, VectorTP, 1, NomTP, VectorMur,VectorPiege, 2, VectorMap);
     }
     else if (TypePart==3)
     {
-        InitGrid(Mat, 10, 30, PosPlayer1, PosPlayer2, VectorTP, 1, NomTP, VectorMur, VectorMap);
+        InitGrid(Mat, 10, 30, PosPlayer1, PosPlayer2, VectorTP, 1, NomTP, VectorMur, VectorPiege, 1,VectorMap);
     }
 
     DisplayGrid (Mat, NomTP);
@@ -207,6 +237,8 @@ int ppal (void){
         //affichVectPair(VectorMap);
         //affichVectBool(VectorBloque);
         TP_Verif(Mat, (Player1Turn ? PosPlayer1 : PosPlayer2), VectorTP, Player1Turn);
+        Piege_Verif((Player1Turn ? PosPlayer1 : PosPlayer2),VectorPiege, Piege_Actif);
+
 
         ClearScreen();
         DisplayGrid (Mat, NomTP);
@@ -222,17 +254,28 @@ int ppal (void){
             Player1Turn = !Player1Turn;
         }
 
+        if (Piege_Actif){
+            break;
+        }
+
     }
 
-    if (!Victory)
+    if (!Victory && !Piege_Actif)
     {
         Color (KColor.find("KMAgenta")->second);
         cout << "Aucun vainqueur" << endl;
         return 1;
     }
 
+    else if (Piege_Actif){
+        Color (KColor.find("KGreen")->second);
+        cout << "Félicitations Joueur " << (Player1Turn ? 'X' : 'O')
+             << " vous avez gagné :). Cause Piège" << endl;
+        Color (KColor.find("KReset")->second);
+        return 1;
+    }
     Color (KColor.find("KGreen")->second);
-    cout << "Félicitations Joueur" << (Player1Turn ? '2' : '1')
+    cout << "Félicitations Joueur " << (Player1Turn ? 'O' : 'X')
          << " vous avez gagné :)" << endl;
     Color (KColor.find("KReset")->second);
     return 0;

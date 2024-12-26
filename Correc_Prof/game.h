@@ -25,6 +25,8 @@ void Mur_Verif (CPosition & Pos, std::vector<CPosition> VectorMur, std::vector<b
 
 void TP_verif (CMat & Mat, CPosition & Pos, std::vector<TP> & PosTP, bool & Player1Turn);
 
+void Piege_Verif(CPosition & Pos,std::vector<CPosition> & VectorPiege, bool & Piege_Actif);
+
 /**
  * @brief new main
  * @return 0 if everything is OK

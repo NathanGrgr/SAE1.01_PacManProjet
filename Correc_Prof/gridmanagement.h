@@ -47,10 +47,13 @@ void affichVectBool(std::vector<bool> v);
 
 void affichVectStructPair (std::vector<TP> & v);
 
+int mod(int a, int b);
+
 void Genere_Mur(CMat & Mat, unsigned NbLine, unsigned NbColumn, std::vector<CPosition> & PosMur,  std::vector<CPosition> & VectorMap);
 
 void Genere_TP(CMat & Mat, unsigned NbLine, unsigned NbColumn, std::vector<TP> & PosTP, unsigned NbTP, std::vector<CPosition> & VectorMap);
 
+void Genere_Piege(CMat & Mat, unsigned NbLine, unsigned NbColumn, std::vector<CPosition> & VectorPiege, unsigned NbPiege, std::vector<CPosition> & VectorMap);
 
 /*!
  * \brief Initialization of the Matrix from scratch
@@ -63,5 +66,7 @@ void Genere_TP(CMat & Mat, unsigned NbLine, unsigned NbColumn, std::vector<TP> &
 
 
 void InitGrid (CMat & Mat, unsigned NbLine, unsigned NbColumn, CPosition & PosPlayer1, CPosition & PosPlayer2, std::vector<TP> & VectorTP, unsigned NbTP,
-              std::vector<char> & NomTP, std::vector<CPosition> & VectorMur, std::vector<CPosition> & VectorMap);
+              std::vector<char> & NomTP, std::vector<CPosition> & VectorMur, std::vector<CPosition> & VectorPiege, unsigned NbPiege, std::vector<CPosition> & VectorMap);
+
+
 #endif // GRIDMANAGEMENT_H
