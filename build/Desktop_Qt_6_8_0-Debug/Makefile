@@ -54,9 +54,11 @@ OBJECTS_DIR   = ./
 
 SOURCES       = ../../Correc_Prof/game.cpp \
 		../../Correc_Prof/gridmanagement.cpp \
+		../../Correc_Prof/params.cpp \
 		../../main.cpp 
 OBJECTS       = game.o \
 		gridmanagement.o \
+		params.o \
 		main.o
 DIST          = ../../Nos_fichiers/config.yaml \
 		/home/nath/Qt/6.8.0/gcc_64/mkspecs/features/spec_pre.prf \
@@ -257,6 +259,7 @@ DIST          = ../../Nos_fichiers/config.yaml \
 		Correc_Prof/params.h \
 		Correc_Prof/type.h ../../Correc_Prof/game.cpp \
 		../../Correc_Prof/gridmanagement.cpp \
+		../../Correc_Prof/params.cpp \
 		../../main.cpp
 QMAKE_TARGET  = PacMan
 DESTDIR       = 
@@ -710,6 +713,11 @@ game.o: ../../Correc_Prof/game.cpp ../../Correc_Prof/game.h \
 gridmanagement.o: ../../Correc_Prof/gridmanagement.cpp ../../Correc_Prof/gridmanagement.h \
 		../../Correc_Prof/type.h
 	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o gridmanagement.o ../../Correc_Prof/gridmanagement.cpp
+
+params.o: ../../Correc_Prof/params.cpp ../../Correc_Prof/params.h \
+		../../Correc_Prof/type.h \
+		../../Correc_Prof/game.h
+	$(CXX) -c $(CXXFLAGS) $(INCPATH) -o params.o ../../Correc_Prof/params.cpp
 
 main.o: ../../main.cpp ../../Correc_Prof/game.h \
 		../../Correc_Prof/type.h

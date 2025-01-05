@@ -6,6 +6,7 @@ CONFIG -= qt
 SOURCES += \
     Correc_Prof/game.cpp \
     Correc_Prof/gridmanagement.cpp \
+    Correc_Prof/params.cpp \
     main.cpp
 
 DISTFILES += \

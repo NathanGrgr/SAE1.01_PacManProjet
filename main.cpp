@@ -24,7 +24,7 @@ int main()
     }
     catch (...)
     {
-        cerr << "ca c'est mal passe quelque part" << endl;
+        cerr << "ça s'est mal passé quelque part" << endl;
         return 1;
     }
 } //main ()

@@ -11,7 +11,8 @@
  * \date 18 décembre 2018
  */
 
-#include "type.h"
+#include "params.h"
+
 /*!
  * \brief Move the current token according to the character in the 2nd parameter
  * \param[in, out] Mat the matrix before and after the move

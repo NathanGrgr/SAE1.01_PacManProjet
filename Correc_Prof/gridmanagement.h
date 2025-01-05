@@ -35,7 +35,7 @@ void Color (const std::string & Col);
  * @fn void DisplayGrid (const CMat & Mat, const CMyParam & Params, bool ShowLineNumber = true, bool ShowColor = true);
  */
 
-void DisplayGrid (const CMat & Mat, std::vector<char> & NomTP);
+void DisplayGrid (const CMat & Mat, const CMyParam & Param, std::vector<char> & NomTP);
 
 void affichVectChar(std::vector<char> v);
 
@@ -65,8 +65,8 @@ void Genere_Piege(CMat & Mat, unsigned NbLine, unsigned NbColumn, std::vector<CP
  */
 
 
-void InitGrid (CMat & Mat, unsigned NbLine, unsigned NbColumn, CPosition & PosPlayer1, CPosition & PosPlayer2, std::vector<TP> & VectorTP, unsigned NbTP,
-              std::vector<char> & NomTP, std::vector<CPosition> & VectorMur, std::vector<CPosition> & VectorPiege, unsigned NbPiege, std::vector<CPosition> & VectorMap);
-
+void InitGrid (CMat & Mat, CMyParam & Param, CPosition & PosPlayer1, CPosition & PosPlayer2,
+              std::vector<TP> & VectorTP, unsigned NbTP, std::vector<char> & NomTP, std::vector<CPosition> & VectorMur,
+              std::vector<CPosition> & VectorPiege, unsigned NbPiege, std::vector<CPosition> & VectorMap);
 
 #endif // GRIDMANAGEMENT_H

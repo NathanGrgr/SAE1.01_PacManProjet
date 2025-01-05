@@ -54,6 +54,14 @@ struct AuthorizedKey {
     const std::vector <std::string> VParamUnsigned {"NbRow", "NbColumn"};
 };
 
+
+struct CMyParam {
+    std::map <std::string, char> MapParamChar;
+    std::map <std::string, unsigned> MapParamUnsigned;
+    std::map <std::string, std::string > MapParamString;
+};
+
+
 /**
  * @brief KAuthorizedKey
  */
@@ -79,6 +87,6 @@ const std::map <std::string, std::string> KColor
 /**
  * @brief KEmpty : character for an empty cell
  */
-const char KEmpty        = ' ';
+const char KEmpty=' ';
 
 #endif // TYPE_H

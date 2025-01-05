@@ -2,10 +2,9 @@ KeyUp : z
 KeyDown : s
 KeyLeft : q
 KeyRight : d
-NbColumn : 50
-NbRow : 50
+NbColumn : 10
+NbRow : 2
 ColorP1 : KBlue
 ColorP2 :  KGreen
 TokenP1 : X
 TokenP2 : O
-TokenTP1 : T

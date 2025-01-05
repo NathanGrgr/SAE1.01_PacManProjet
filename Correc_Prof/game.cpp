@@ -9,7 +9,7 @@
 
 
 /*
- * Corriger bug lors de TP (tour en + pour le joueur qui prend le tp
+ * Corriger bug lors de TP (tour en + pour le joueur qui prend le tp)
  */
 
 
@@ -28,8 +28,6 @@ void MoveToken (CMat & Mat, const char & Move, CPosition & Pos, vector<bool> Vec
     case 'Z':
         if (!VectorBloque[0])
             --Pos.first;
-        else
-            cout << "Déplacement non possible" << endl;
         break;
     case 'Q':
         if(Pos.second<=0)
@@ -37,54 +35,40 @@ void MoveToken (CMat & Mat, const char & Move, CPosition & Pos, vector<bool> Vec
 
         else if (!VectorBloque[1])
             --Pos.second;
-        else
-            cout << "Déplacement non possible" << endl;
         break;
     case 'X':
         if (!VectorBloque[2])
             ++Pos.first;
-        else
-            cout << "Déplacement non possible" << endl;
         break;
     case 'D':
         if(Pos.second>=int(Mat.size()))
             Pos.second=mod((Pos.second+1),20);
         else if (!VectorBloque[3])
             ++Pos.second;
-        else
-            cout << "Déplacement non possible" << endl;
         break;
     case 'A':
         if (!VectorBloque[4]){
             -- Pos.first;
             -- Pos.second;
         }
-        else
-            cout << "Déplacement non possible" << endl;
         break;
     case 'E':
         if (!VectorBloque[5]){
             --Pos.first;
             ++Pos.second;
         }
-        else
-            cout << "Déplacement non possible" << endl;
         break;
     case 'W':
         if (!VectorBloque[6]){
             ++Pos.first;
             --Pos.second;
         }
-        else
-            cout << "Déplacement non possible" << endl;
         break;
     case 'C':
         if(!VectorBloque[7]){
             ++Pos.first;
             ++Pos.second;
         }
-        else
-            cout << "Déplacement non possible" << endl;
     }affichPair(Pos);
     Mat [Pos.first][Pos.second] = car;
     affichPair(Pos);
@@ -200,6 +184,10 @@ int ppal (void){
     vector<CPosition> VectorPiege;
     bool Piege_Actif;
 
+    CMyParam Param;
+    InitParams(Param);
+    LoadParams(Param);
+
     cout << "Bienvenue sur PacMan :" << endl ;
     cout << "Pour aller au niveau 1 tapez 1" << endl ;
     cout << "Pour aller au niveau 2 tapez 2" << endl ;
@@ -207,18 +195,18 @@ int ppal (void){
     cin >> TypePart;
     if (TypePart == 1)
     {
-        InitGrid(Mat, 10, 20, PosPlayer1, PosPlayer2, VectorTP, 7, NomTP,VectorMur, VectorPiege, 3, VectorMap);
+        InitGrid(Mat, Param ,PosPlayer1, PosPlayer2, VectorTP, 7, NomTP,VectorMur, VectorPiege, 3, VectorMap);
     }
     else if (TypePart == 2)
     {
-        InitGrid(Mat, 30, 10, PosPlayer1, PosPlayer2, VectorTP, 1, NomTP, VectorMur,VectorPiege, 2, VectorMap);
+        InitGrid(Mat, Param, PosPlayer1, PosPlayer2, VectorTP, 1, NomTP, VectorMur,VectorPiege, 2, VectorMap);
     }
     else if (TypePart==3)
     {
-        InitGrid(Mat, 10, 30, PosPlayer1, PosPlayer2, VectorTP, 1, NomTP, VectorMur, VectorPiege, 1,VectorMap);
+        InitGrid(Mat, Param,PosPlayer1, PosPlayer2, VectorTP, 1, NomTP, VectorMur, VectorPiege, 1,VectorMap);
     }
 
-    DisplayGrid (Mat, NomTP);
+    DisplayGrid (Mat, Param,NomTP);
     while (PartyNum <= KMaxPartyNum && ! Victory)
     {
 
@@ -241,7 +229,7 @@ int ppal (void){
 
 
         ClearScreen();
-        DisplayGrid (Mat, NomTP);
+        DisplayGrid (Mat,Param, NomTP);
 
         //Test de condition de victoire
         if (PosPlayer1 == PosPlayer2) Victory = true;

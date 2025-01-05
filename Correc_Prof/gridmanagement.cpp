@@ -70,7 +70,7 @@ int mod(int a, int b)
 }
 
 
-void DisplayGrid (const CMat & Mat, vector<char> & NomTP)
+void DisplayGrid (const CMat & Mat, const CMyParam & Param, vector<char> & NomTP)
 {
     const unsigned KNbLine = Mat.size ();
     //const unsigned KNbCol  = Mat[0].size ();
@@ -120,8 +120,8 @@ void DisplayGrid (const CMat & Mat, vector<char> & NomTP)
     //cout << string (KNbCol + 2 , '-') << endl;
 }
 
-//Génère obstacles sur la map
-// void Genere_Mur(CMat & Mat, unsigned NbLine, unsigned NbColumn, vector<CPosition> & VectorMur, unsigned NbMur, vector<CPosition> & VectorMap){
+// Génère obstacles sur la map
+// void Genere_Mur_Alea(CMat & Mat, unsigned NbLine, unsigned NbColumn, vector<CPosition> & VectorMur, unsigned NbMur, vector<CPosition> & VectorMap){
 //     bool trouv(false);
 //     unsigned i(0);
 //     while (i<NbMur){
@@ -451,19 +451,27 @@ void Genere_TP(CMat & Mat, unsigned NbLine, unsigned NbColumn, vector<TP> & Vect
 
 
 
-void InitGrid (CMat & Mat, unsigned NbLine, unsigned NbColumn, CPosition & PosPlayer1, CPosition & PosPlayer2, vector<TP> & VectorTP, unsigned NbTP,
+void InitGrid (CMat & Mat, CMyParam & Param, CPosition & PosPlayer1, CPosition & PosPlayer2, vector<TP> & VectorTP, unsigned NbTP,
                 vector<char> & NomTP, vector<CPosition> & VectorMur, vector<CPosition> & VectorPiege, unsigned NbPiege, vector<CPosition> & VectorMap){
 
+    unsigned NbLine =Param.MapParamUnsigned.find("NbLine")->second;
+    unsigned NbColumn=Param.MapParamUnsigned.find("NbColumn")->second;
+
+    //Initialise la grille sous forme de matrice
     Mat.resize (NbLine);
     const CVLine KLine (NbColumn, KEmpty);
     for (CVLine &ALine : Mat)
         ALine = KLine;
+
+    //Place les joueurs sur la grille
     PosPlayer1.first = 1;
     PosPlayer1.second = 1;
-    Mat [PosPlayer1.first][PosPlayer1.second] = 'X';
+    Mat [PosPlayer1.first][PosPlayer1.second] = Param.MapParamChar.find("TokenP2")-> second;
     PosPlayer2.first = NbLine-2;
     PosPlayer2.second =NbColumn-2;
-    Mat [PosPlayer2.first][PosPlayer2.second]   = 'O';
+    Mat [PosPlayer2.first][PosPlayer2.second]= Param.MapParamChar.find("TokenP1")-> second;
+
+    //Génère les obstacles sur la grille
     Genere_Mur(Mat,NbLine, NbColumn, VectorMur, VectorMap);
     Genere_TP(Mat, NbLine, NbColumn, VectorTP, NbTP, NomTP,VectorMap);
     Genere_Piege(Mat,NbLine,NbColumn,VectorPiege, NbPiege,VectorMap);

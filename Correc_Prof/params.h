@@ -21,6 +21,8 @@
  */
 
 
+void InitParams (CMyParam & Param);
+
 /**
  * @brief Load the set of parameters from a YAML file
  * @param[out] Param : List of usefull parameters
@@ -28,5 +30,9 @@
  * @fn void LoadParams (CMyParam & Param);
  * @return 0 if everything is OK, return 2 if it can't load the file
  */
+
+
+
+void LoadParams (CMyParam & Param);
 
 #endif // PARAMS_H
