@@ -8,6 +8,8 @@
 
 #include <iostream>
 #include "Correc_Prof/game.h"
+#include <termios.h>
+#include <unistd.h>
 
 using namespace std;
 /**
@@ -16,11 +18,41 @@ using namespace std;
  */
 
 
+
+
+// Fonction pour configurer le terminal en mode non canonique
+void configureTerminal(struct termios& oldSettings, struct termios& newSettings) {
+    // Récupérer les paramètres actuels
+    tcgetattr(STDIN_FILENO, &oldSettings);
+
+    // Configurer les nouveaux paramètres
+    newSettings = oldSettings;
+    newSettings.c_lflag &= ~(ICANON | ECHO); // Désactiver le mode canonique et l'écho
+    newSettings.c_cc[VMIN] = 1;  // Lire au moins 1 caractère avant de continuer
+    newSettings.c_cc[VTIME] = 0; // Pas de délai pour la lecture
+
+    // Appliquer les paramètres
+    tcsetattr(STDIN_FILENO, TCSANOW, &newSettings);
+}
+
+// Fonction pour restaurer les paramètres d'origine du terminal
+void restoreTerminal(const struct termios& oldSettings) {
+    tcsetattr(STDIN_FILENO, TCSANOW, &oldSettings); // Restaurer les paramètres
+}
+
+
 int main()
 {
+    struct termios oldSettings, newSettings;
+
+    // Configurer le terminal
+    configureTerminal(oldSettings, newSettings);
+
     try
     {
-        return ppal ();
+        int result = ppal(); // Appel de la fonction principale
+        restoreTerminal(oldSettings); // Restaurer le terminal avant de quitter
+        return result;
     }
     catch (...)
     {

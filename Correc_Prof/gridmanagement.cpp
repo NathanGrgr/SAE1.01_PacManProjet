@@ -224,23 +224,14 @@ void Genere_Mur(CMat & Mat, unsigned NbLine, unsigned NbColumn, vector<CPosition
     VectorMur.push_back(PosMur);
     VectorMap.push_back(PosMur);
 
-    PosMur.first=7;
-    PosMur.second=3;
-    Mat [PosMur.first][PosMur.second] = 'M';
-    VectorMur.push_back(PosMur);
-    VectorMap.push_back(PosMur);
 
-    PosMur.first=7;
-    PosMur.second=4;
-    Mat [PosMur.first][PosMur.second] = 'M';
-    VectorMur.push_back(PosMur);
-    VectorMap.push_back(PosMur);
-
-    PosMur.first=7;
-    PosMur.second=5;
-    Mat [PosMur.first][PosMur.second] = 'M';
-    VectorMur.push_back(PosMur);
-    VectorMap.push_back(PosMur);
+    for (unsigned i(3); i<6; ++i){
+        PosMur.first=7;
+        PosMur.second=i;
+        Mat [PosMur.first][PosMur.second] = 'M';
+        VectorMur.push_back(PosMur);
+        VectorMap.push_back(PosMur);
+    }
 
     //Crochet Bas Droite
     PosMur.first=6;
@@ -249,124 +240,52 @@ void Genere_Mur(CMat & Mat, unsigned NbLine, unsigned NbColumn, vector<CPosition
     VectorMur.push_back(PosMur);
     VectorMap.push_back(PosMur);
 
-    PosMur.first=7;
-    PosMur.second=NbColumn-4;
-    Mat [PosMur.first][PosMur.second] = 'M';
-    VectorMur.push_back(PosMur);
-    VectorMap.push_back(PosMur);
-
-    PosMur.first=7;
-    PosMur.second=NbColumn-5;
-    Mat [PosMur.first][PosMur.second] = 'M';
-    VectorMur.push_back(PosMur);
-    VectorMap.push_back(PosMur);
-
-    PosMur.first=7;
-    PosMur.second=NbColumn-6;
-    Mat [PosMur.first][PosMur.second] = 'M';
-    VectorMur.push_back(PosMur);
-    VectorMap.push_back(PosMur);
-
+    for (unsigned i(4); i<7; ++i){
+        PosMur.first=7;
+        PosMur.second=NbColumn-i;
+        Mat [PosMur.first][PosMur.second] = 'M';
+        VectorMur.push_back(PosMur);
+        VectorMap.push_back(PosMur);
+    }
 
     //Barre Bas Milieu
-    PosMur.first=7;
-    PosMur.second=8;
-    Mat [PosMur.first][PosMur.second] = 'M';
-    VectorMur.push_back(PosMur);
-    VectorMap.push_back(PosMur);
 
-    PosMur.first=7;
-    PosMur.second=9;
-    Mat [PosMur.first][PosMur.second] = 'M';
-    VectorMur.push_back(PosMur);
-    VectorMap.push_back(PosMur);
+    for (unsigned i(8); i<12; ++i){
+        PosMur.first=7;
+        PosMur.second=i;
+        Mat [PosMur.first][PosMur.second] = 'M';
+        VectorMur.push_back(PosMur);
+        VectorMap.push_back(PosMur);
+    }
 
-    PosMur.first=7;
-    PosMur.second=10;
-    Mat [PosMur.first][PosMur.second] = 'M';
-    VectorMur.push_back(PosMur);
-    VectorMap.push_back(PosMur);
-
-    PosMur.first=7;
-    PosMur.second=11;
-    Mat [PosMur.first][PosMur.second] = 'M';
-    VectorMur.push_back(PosMur);
-    VectorMap.push_back(PosMur);
 
     //Barre Verticale haut gauche
-    PosMur.first=1;
-    PosMur.second=3;
-    Mat [PosMur.first][PosMur.second] = 'M';
-    VectorMur.push_back(PosMur);
-    VectorMap.push_back(PosMur);
-
-    PosMur.first=2;
-    PosMur.second=3;
-    Mat [PosMur.first][PosMur.second] = 'M';
-    VectorMur.push_back(PosMur);
-    VectorMap.push_back(PosMur);
-
-    PosMur.first=3;
-    PosMur.second=3;
-    Mat [PosMur.first][PosMur.second] = 'M';
-    VectorMur.push_back(PosMur);
-    VectorMap.push_back(PosMur);
+    for (unsigned i(1); i<4; ++i){
+        PosMur.first=i;
+        PosMur.second=3;
+        Mat [PosMur.first][PosMur.second] = 'M';
+        VectorMur.push_back(PosMur);
+        VectorMap.push_back(PosMur);
+    }
 
     //Barre Horizontale millieu haut
-    PosMur.first=2;
-    PosMur.second=7;
-    Mat [PosMur.first][PosMur.second] = 'M';
-    VectorMur.push_back(PosMur);
-    VectorMap.push_back(PosMur);
-
-    PosMur.first=2;
-    PosMur.second=8;
-    Mat [PosMur.first][PosMur.second] = 'M';
-    VectorMur.push_back(PosMur);
-    VectorMap.push_back(PosMur);
-
-    PosMur.first=2;
-    PosMur.second=9;
-    Mat [PosMur.first][PosMur.second] = 'M';
-    VectorMur.push_back(PosMur);
-    VectorMap.push_back(PosMur);
-
-    PosMur.first=2;
-    PosMur.second=10;
-    Mat [PosMur.first][PosMur.second] = 'M';
-    VectorMur.push_back(PosMur);
-    VectorMap.push_back(PosMur);
-
-    PosMur.first=2;
-    PosMur.second=11;
-    Mat [PosMur.first][PosMur.second] = 'M';
-    VectorMur.push_back(PosMur);
-    VectorMap.push_back(PosMur);
-
-    PosMur.first=2;
-    PosMur.second=12;
-    Mat [PosMur.first][PosMur.second] = 'M';
-    VectorMur.push_back(PosMur);
-    VectorMap.push_back(PosMur);
+    for (unsigned i(7); i<13; ++i){
+        PosMur.first=2;
+        PosMur.second=i;
+        Mat [PosMur.first][PosMur.second] = 'M';
+        VectorMur.push_back(PosMur);
+        VectorMap.push_back(PosMur);
+    }
 
     //Barre verticale haut droite
-    PosMur.first=1;
-    PosMur.second=16;
-    Mat [PosMur.first][PosMur.second] = 'M';
-    VectorMur.push_back(PosMur);
-    VectorMap.push_back(PosMur);
 
-    PosMur.first=2;
-    PosMur.second=16;
-    Mat [PosMur.first][PosMur.second] = 'M';
-    VectorMur.push_back(PosMur);
-    VectorMap.push_back(PosMur);
-
-    PosMur.first=3;
-    PosMur.second=16;
-    Mat [PosMur.first][PosMur.second] = 'M';
-    VectorMur.push_back(PosMur);
-    VectorMap.push_back(PosMur);
+    for (unsigned i(1); i<4; ++i){
+        PosMur.first=i;
+        PosMur.second=16;
+        Mat [PosMur.first][PosMur.second] = 'M';
+        VectorMur.push_back(PosMur);
+        VectorMap.push_back(PosMur);
+    }
 
     //Génère bloc milieu
     unsigned val_y=4;

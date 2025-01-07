@@ -6,6 +6,7 @@
 #include <iostream>
 #include <algorithm>
 
+
 using namespace std;
 
 void InitParams (CMyParam & Param){
@@ -15,11 +16,11 @@ void InitParams (CMyParam & Param){
     Param.MapParamChar["KeyLeft"]='q';
     Param.MapParamChar["KeyRight"]='d';
 
-    Param.MapParamChar["TokenP1"]='O';
-    Param.MapParamChar["TokenP2"]='X';
+    Param.MapParamChar["TokenP1"]='X';
+    Param.MapParamChar["TokenP2"]='O';
 
     //Size of grid - suppose to be a rectangle
-    Param.MapParamUnsigned["NbColumn"]=20;
+    Param.MapParamUnsigned["NbColumn"]=10;
     Param.MapParamUnsigned["NbLine"]=10;
 
     //Display Colors
@@ -28,14 +29,12 @@ void InitParams (CMyParam & Param){
 }
 
 void LoadParams(CMyParam & Param){
-    ifstream ifs ("../SAE1.01_PacManProjet/Nos_fichiers/config.yaml");
-    /*
+    ifstream ifs ("../../Nos_fichiers/config.yaml");
     if (!ifs){
         cerr << "pas de fichier de configuration ici" << endl;
         exit (-1);
     }
-    */
-    cout << "fichier ok" << endl;
+
     for (string cle, poubelle; ifs >> cle; ){
         char deuxpoints;
         ifs >>  deuxpoints;
@@ -46,7 +45,7 @@ void LoadParams(CMyParam & Param){
             Param.MapParamChar[cle]=val;
         }
         else if (find(KAuthorizedKey.VParamUnsigned.begin(), KAuthorizedKey.VParamUnsigned.end(),
-                        cle) != KAuthorizedKey.VParamUnsigned.end()){
+                      cle) != KAuthorizedKey.VParamUnsigned.end()){
             unsigned val;
             ifs >> val;
             Param.MapParamUnsigned[cle] =val;

@@ -109,9 +109,6 @@ void TP_Verif (CMat & Mat, CPosition & Pos, vector<TP> & PosTP, bool & Player1Tu
 
 void Piege_Verif(CPosition & Pos,vector<CPosition> & VectorPiege, bool & Piege_Actif){
     Piege_Actif=false;
-    cout << "coucou" << endl;
-    cout << VectorPiege.size() << endl;
-    cout << "test" << endl;
     for (size_t i(0); i<VectorPiege.size(); ++i){
         if (Pos==VectorPiege[i])
             Piege_Actif=true;
@@ -148,7 +145,7 @@ void Mur_Verif (CPosition & Pos, vector<CPosition> VectorMur,vector<bool> & Vect
         else if (Pos.first-1==VectorMur[i].first && Pos.second+1==VectorMur[i].second)
             VectorBloque[5]=true;
         //w (q + x)
-        else if (Pos.second-1==VectorMur[i].first && Pos.first+1==VectorMur[i].second)
+        else if (Pos.first+1==VectorMur[i].second && Pos.second-1==VectorMur[i].first)
             VectorBloque[6]=true;
         //c (x + d)
         else if (Pos.first+1==VectorMur[i].first && Pos.second+1==VectorMur[i].second)
@@ -172,7 +169,8 @@ int ppal (void){
 
     //Stocke les positions courantes des joueurs
     CPosition PosPlayer1, PosPlayer2;
-    //Stocke les coordonnées des murs
+    //Stocke les coordonnées des murstest
+
     vector<CPosition> VectorMur;
     //Srocke les coordonnées des TP
     vector<TP> VectorTP;
@@ -195,7 +193,7 @@ int ppal (void){
     cin >> TypePart;
     if (TypePart == 1)
     {
-        InitGrid(Mat, Param ,PosPlayer1, PosPlayer2, VectorTP, 7, NomTP,VectorMur, VectorPiege, 3, VectorMap);
+        InitGrid(Mat, Param ,PosPlayer1, PosPlayer2, VectorTP, 4, NomTP,VectorMur, VectorPiege, 3, VectorMap);
     }
     else if (TypePart == 2)
     {
@@ -231,12 +229,13 @@ int ppal (void){
         ClearScreen();
         DisplayGrid (Mat,Param, NomTP);
 
+        cout << Player1Turn << endl;
         //Test de condition de victoire
         if (PosPlayer1 == PosPlayer2) Victory = true;
 
 
         if ((Move=='Z' && !VectorBloque[0]) || (Move=='Q' && !VectorBloque[1])  || (Move=='X' && !VectorBloque[2]) ||
-            (Move=='D'&& !VectorBloque[5]) || (Move=='A' && !VectorBloque[4]) || (Move=='E' && !VectorBloque[3]) ||
+            (Move=='D'&& !VectorBloque[3]) || (Move=='A' && !VectorBloque[4]) || (Move=='E' && !VectorBloque[5]) ||
             (Move=='W' && !VectorBloque[6]) || (Move=='C' && !VectorBloque[7])){
             ++PartyNum;
             Player1Turn = !Player1Turn;
