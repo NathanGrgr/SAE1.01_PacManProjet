@@ -1,2 +1,6 @@
 Convert size_t into char:
 https://stackoverflow.com/questions/25850244/casting-from-size-t-to-char-and-around
+
+Termios Structure:
+https://www.man7.org/linux/man-pages/man3/termios.3.html
+https://www.youtube.com/watch?v=WvSOSyi5lWY&t=715s
