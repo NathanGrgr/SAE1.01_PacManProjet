@@ -21,37 +21,38 @@ using namespace std;
 
 
 // Fonction pour configurer le terminal en mode non canonique
-void configureTerminal(struct termios& oldSettings, struct termios& newSettings) {
-    // Récupérer les paramètres actuels
-    tcgetattr(STDIN_FILENO, &oldSettings);
+void configureTerminal(struct termios& anciensParam, struct termios& nvxParams) {
+    // tcgetattr -> Récupére les paramètres actuels
+    tcgetattr(STDIN_FILENO, &anciensParam);
 
-    // Configurer les nouveaux paramètres
-    newSettings = oldSettings;
-    newSettings.c_lflag &= ~(ICANON | ECHO); // Désactiver le mode canonique et l'écho
-    newSettings.c_cc[VMIN] = 1;  // Lire au moins 1 caractère avant de continuer
-    newSettings.c_cc[VTIME] = 0; // Pas de délai pour la lecture
+    // Configure les nouveaux paramètres et en copie pour restaurer plus tard
+    nvxParams = anciensParam;
+    // Désactive le mode canonique
+    nvxParams.c_lflag &= ~(ICANON);
 
-    // Appliquer les paramètres
-    tcsetattr(STDIN_FILENO, TCSANOW, &newSettings);
+    // Applique les paramètres
+    tcsetattr(STDIN_FILENO, TCSANOW, &nvxParams);
 }
 
 // Fonction pour restaurer les paramètres d'origine du terminal
-void restoreTerminal(const struct termios& oldSettings) {
-    tcsetattr(STDIN_FILENO, TCSANOW, &oldSettings); // Restaurer les paramètres
+void restoreTerminal(const struct termios& anciensParam) {
+
+    tcsetattr(STDIN_FILENO, TCSANOW, &anciensParam);
 }
 
 
 int main()
 {
-    struct termios oldSettings, newSettings;
+    struct termios anciensParam, nvxParams;
 
-    // Configurer le terminal
-    configureTerminal(oldSettings, newSettings);
+    // Configure le terminal
+    configureTerminal(anciensParam, nvxParams);
 
     try
     {
-        int result = ppal(); // Appel de la fonction principale
-        restoreTerminal(oldSettings); // Restaurer le terminal avant de quitter
+        int result = ppal();
+        // Restaure le terminal avant de quitter pour ne pas créer de conflit
+        restoreTerminal(anciensParam);
         return result;
     }
     catch (...)
