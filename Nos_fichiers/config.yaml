@@ -6,7 +6,7 @@ NbColumn : 20
 NbRow : 10
 ColorP1 : KYellow
 ColorP2 :  KCyan
-TokenP1 : C
+TokenP1 : K
 TokenP2 : F
 TokenMur : /
 TokenPiege : *
