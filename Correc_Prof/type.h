@@ -47,7 +47,7 @@ typedef std::vector<TP> VectorTP;
  */
 struct AuthorizedKey {
     /** List of authorized key for the type char in a struct CMyParam*/
-    const std::vector <std::string> VParamChar {"KeyUp", "KeyDown", "KeyLeft", "KeyRight", "TokenP1", "TokenP2"};
+    const std::vector <std::string> VParamChar {"KeyUp", "KeyDown", "KeyLeft", "KeyRight", "TokenP1", "TokenP2", "TokenMur", "TokenPiege"};
     /** List of authorized key for the type string in a struct CMyParam*/
     const std::vector <std::string> VParamString {"ColorP1", "ColorP2"};
     /** List of authorized key for the type unsigned in a struct CMyParam*/

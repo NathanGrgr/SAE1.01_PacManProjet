@@ -24,7 +24,7 @@ void MoveToken (CMat & Mat, const char & Move, CPosition & Pos, std::vector<bool
 
 void Mur_Verif (CPosition & Pos, std::vector<CPosition> VectorMur, std::vector<bool> & VectorBloque);
 
-void TP_verif (CMat & Mat, CPosition & Pos, std::vector<TP> & PosTP, bool & Player1Turn);
+void TP_verif (CMat & Mat, CPosition & Pos, std::vector<TP> & PosTP,const CMyParam Param, bool & Player1Turn);
 
 void Piege_Verif(CPosition & Pos,std::vector<CPosition> & VectorPiege, bool & Piege_Actif);
 

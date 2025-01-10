@@ -8,13 +8,7 @@
 #include <map>
 
 
-/*
- * Corriger bug lors de TP (tour en + pour le joueur qui prend le tp)
- */
-
-
 using namespace std;
-//z, q, x, d, a, e, w, c
 //Permet de faire bouger le joueur sur la map en fonction de l'entrée saisie
 void MoveToken (CMat & Mat, const char & Move, CPosition & Pos, vector<bool> VectorBloque)
 {
@@ -27,56 +21,50 @@ void MoveToken (CMat & Mat, const char & Move, CPosition & Pos, vector<bool> Vec
     {
     case 'Z':
         if (!VectorBloque[0])
-            --Pos.first;
+            Pos.first=mod((Pos.first-1),20);
         break;
     case 'Q':
-        if(Pos.second<=0)
+        if (!VectorBloque[1])
             Pos.second=mod((Pos.second-1),20);
-
-        else if (!VectorBloque[1])
-            --Pos.second;
         break;
     case 'X':
         if (!VectorBloque[2])
-            ++Pos.first;
+            Pos.first=mod((Pos.first+1),20);
         break;
     case 'D':
-        if(Pos.second>=int(Mat.size()))
+        if (!VectorBloque[3])
             Pos.second=mod((Pos.second+1),20);
-        else if (!VectorBloque[3])
-            ++Pos.second;
         break;
     case 'A':
         if (!VectorBloque[4]){
-            -- Pos.first;
-            -- Pos.second;
+            Pos.first=mod((Pos.first-1),20);
+            Pos.second=mod((Pos.second-1),20);
         }
         break;
     case 'E':
         if (!VectorBloque[5]){
-            --Pos.first;
-            ++Pos.second;
+            Pos.first=mod((Pos.first-1),20);
+            Pos.second=mod((Pos.second+1),20);
         }
         break;
     case 'W':
         if (!VectorBloque[6]){
-            ++Pos.first;
-            --Pos.second;
+            Pos.first=mod((Pos.first+1),20);
+            Pos.second=mod((Pos.second-1),20);
         }
         break;
     case 'C':
         if(!VectorBloque[7]){
-            ++Pos.first;
-            ++Pos.second;
+            Pos.first=mod((Pos.first+1),20);
+            Pos.second=mod((Pos.second+1),20);
         }
-    }affichPair(Pos);
+    }
     Mat [Pos.first][Pos.second] = car;
-    affichPair(Pos);
 } //MoveToken ()
 
 
 //Vérifie si le joueur est sur un des points du/des TP
-void TP_Verif (CMat & Mat, CPosition & Pos, vector<TP> & PosTP, bool & Player1Turn){
+void TP_Verif (CMat & Mat, CPosition & Pos, vector<TP> & PosTP,const CMyParam Param, bool & Player1Turn){
     for (size_t i(0); i < PosTP.size(); ++i){
         if (Pos.first == PosTP[i].PosTP1.first && Pos.second==PosTP[i].PosTP1.second){
             Mat[Pos.first][Pos.second]=' ';
@@ -84,10 +72,10 @@ void TP_Verif (CMat & Mat, CPosition & Pos, vector<TP> & PosTP, bool & Player1Tu
             Pos.second=PosTP[i].PosTP2.second;
             PosTP.erase(PosTP.begin()+i);
             if (Player1Turn){
-                Mat[Pos.first][Pos.second]='X';
+                Mat[Pos.first][Pos.second]=Param.MapParamChar.find("TokenP2")->second;
             }
             else if (!Player1Turn){
-                Mat[Pos.first][Pos.second]='O';
+                Mat[Pos.first][Pos.second]=Param.MapParamChar.find("TokenP1")->second;
             }
         }
         else if (Pos.first == PosTP[i].PosTP2.first && Pos.second==PosTP[i].PosTP2.second){
@@ -96,17 +84,17 @@ void TP_Verif (CMat & Mat, CPosition & Pos, vector<TP> & PosTP, bool & Player1Tu
             Pos.second=PosTP[i].PosTP1.second;
             PosTP.erase(PosTP.begin()+i);
             if (Player1Turn){
-                Mat[Pos.first][Pos.second]='X';
+                Mat[Pos.first][Pos.second]=Param.MapParamChar.find("TokenP2")->second;
             }
             else if (!Player1Turn){
-                Mat[Pos.first][Pos.second]='O';
+                Mat[Pos.first][Pos.second]=Param.MapParamChar.find("TokenP1")->second;
             }
         }
     }
 }
 
 
-
+//Vérifie si le joueur n'est pas sur l'une des cases piégés
 void Piege_Verif(CPosition & Pos,vector<CPosition> & VectorPiege, bool & Piege_Actif){
     Piege_Actif=false;
     for (size_t i(0); i<VectorPiege.size(); ++i){
@@ -118,9 +106,11 @@ void Piege_Verif(CPosition & Pos,vector<CPosition> & VectorPiege, bool & Piege_A
 
 // first --> y
 // second --> x
+
+//Configure Murs qui bloquent les déplacements des joueurs
 void Mur_Verif (CPosition & Pos, vector<CPosition> VectorMur,vector<bool> & VectorBloque){
     VectorBloque.clear();
-    VectorBloque = {false,false,false,false,false,false,false,false,false};
+    VectorBloque = {false,false,false,false,false,false,false,false};
     for (size_t i(0); i<VectorMur.size(); ++i){
         //z
         if (Pos.first-1==VectorMur[i].first && Pos.second==VectorMur[i].second)
@@ -145,7 +135,7 @@ void Mur_Verif (CPosition & Pos, vector<CPosition> VectorMur,vector<bool> & Vect
         else if (Pos.first-1==VectorMur[i].first && Pos.second+1==VectorMur[i].second)
             VectorBloque[5]=true;
         //w (q + x)
-        else if (Pos.first+1==VectorMur[i].second && Pos.second-1==VectorMur[i].first)
+        else if (Pos.first+1==VectorMur[i].first && Pos.second-1==VectorMur[i].second)
             VectorBloque[6]=true;
         //c (x + d)
         else if (Pos.first+1==VectorMur[i].first && Pos.second+1==VectorMur[i].second)
@@ -185,23 +175,27 @@ int ppal (void){
     CMyParam Param;
     InitParams(Param);
     LoadParams(Param);
-
-    cout << "Bienvenue sur PacMan :" << endl ;
+    cout << "         _______                          __  __                 \n";
+    cout << "        |__   __|                        |  \\/  |                \n";
+    cout << "           | |     _ __    __ _   _ __   | \\  / |   __ _   _ __  \n";
+    cout << "           | |    | '__|  / _` | | '_ \\  | |\\/| |  / _` | | '_ \\ \n";
+    cout << "           | |    | |    | (_| | | |_) | | |  | | | (_| | | | | | \n";
+    cout << "           |_|    |_|     \\__,_| | .__/  |_|  |_|  \\__,_| |_| |_| \n";
+    cout << "                                 | |                              \n";
+    cout << "                                 |_|                              \n";
+    cout << "Bienvenue sur TrapMan :" << endl ;
     cout << "Pour aller au niveau 1 tapez 1" << endl ;
     cout << "Pour aller au niveau 2 tapez 2" << endl ;
     cout << "Pour aller au niveau 3 tapez 3" << endl ;
     cin >> TypePart;
-    if (TypePart == 1)
+    if (TypePart == 3)
     {
-        InitGrid(Mat, Param ,PosPlayer1, PosPlayer2, VectorTP, 4, NomTP,VectorMur, VectorPiege, 3, VectorMap);
+        InitGrid(Mat, Param,PosPlayer1, PosPlayer2, VectorTP, 0, NomTP, VectorMur, VectorPiege, 25,VectorMap, TypePart);
     }
-    else if (TypePart == 2)
+    else
     {
-        InitGrid(Mat, Param, PosPlayer1, PosPlayer2, VectorTP, 1, NomTP, VectorMur,VectorPiege, 2, VectorMap);
-    }
-    else if (TypePart==3)
-    {
-        InitGrid(Mat, Param,PosPlayer1, PosPlayer2, VectorTP, 1, NomTP, VectorMur, VectorPiege, 1,VectorMap);
+        InitGrid(Mat, Param ,PosPlayer1, PosPlayer2, VectorTP, 4, NomTP,VectorMur, VectorPiege, 10, VectorMap, TypePart);
+
     }
 
     DisplayGrid (Mat, Param,NomTP);
@@ -210,7 +204,7 @@ int ppal (void){
 
 
         cout << "tour numero : " << PartyNum << ", Joueur"
-             << (Player1Turn ? 'X' : 'O') << ", entrez un déplacement : ";
+             << (Player1Turn ? Param.MapParamChar.find("TokenP2")->second : Param.MapParamChar.find("TokenP1")->second) << ", entrez un déplacement : ";
 
         char Move;
         cin >> Move;
@@ -219,17 +213,13 @@ int ppal (void){
 
         Mur_Verif((Player1Turn ? PosPlayer1 : PosPlayer2),VectorMur,VectorBloque);
         MoveToken (Mat, Move, (Player1Turn ? PosPlayer1: PosPlayer2), VectorBloque);
-        //affichVectStructPair(VectorTP);
-        //affichVectPair(VectorMap);
-        //affichVectBool(VectorBloque);
-        TP_Verif(Mat, (Player1Turn ? PosPlayer1 : PosPlayer2), VectorTP, Player1Turn);
+        TP_Verif(Mat, (Player1Turn ? PosPlayer1 : PosPlayer2), VectorTP,Param, Player1Turn);
         Piege_Verif((Player1Turn ? PosPlayer1 : PosPlayer2),VectorPiege, Piege_Actif);
 
 
         ClearScreen();
         DisplayGrid (Mat,Param, NomTP);
 
-        cout << Player1Turn << endl;
         //Test de condition de victoire
         if (PosPlayer1 == PosPlayer2) Victory = true;
 
@@ -256,13 +246,13 @@ int ppal (void){
 
     else if (Piege_Actif){
         Color (KColor.find("KGreen")->second);
-        cout << "Félicitations Joueur " << (Player1Turn ? 'X' : 'O')
+        cout << "Félicitations Joueur " << (Player1Turn ? Param.MapParamChar.find("TokenP2")->second : Param.MapParamChar.find("TokenP1")->second)
              << " vous avez gagné :). Cause Piège" << endl;
         Color (KColor.find("KReset")->second);
         return 1;
     }
     Color (KColor.find("KGreen")->second);
-    cout << "Félicitations Joueur " << (Player1Turn ? 'O' : 'X')
+    cout << "Félicitations Joueur " << (Player1Turn ? Param.MapParamChar.find("TokenP1")->second : Param.MapParamChar.find("TokenP2")->second)
          << " vous avez gagné :)" << endl;
     Color (KColor.find("KReset")->second);
     return 0;

@@ -18,9 +18,11 @@ void InitParams (CMyParam & Param){
 
     Param.MapParamChar["TokenP1"]='X';
     Param.MapParamChar["TokenP2"]='O';
+    Param.MapParamChar["TokenMur"]='/';
+    Param.MapParamChar["TokenPiege"]='*';
 
     //Size of grid - suppose to be a rectangle
-    Param.MapParamUnsigned["NbColumn"]=10;
+    Param.MapParamUnsigned["NbColumn"]=20;
     Param.MapParamUnsigned["NbLine"]=10;
 
     //Display Colors
