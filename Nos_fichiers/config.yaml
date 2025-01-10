@@ -4,7 +4,9 @@ KeyLeft : q
 KeyRight : d
 NbColumn : 20
 NbRow : 10
-ColorP1 : KBlue
-ColorP2 :  KGreen
-TokenP1 : O
-TokenP2 : X
+ColorP1 : KYellow
+ColorP2 :  KCyan
+TokenP1 : ?
+TokenP2 : F
+TokenMur : /
+TokenPiege : *
